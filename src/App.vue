@@ -1,6 +1,6 @@
 <template>
     <div class="app">
-        <h1>Страница с постами</h1>
+        <h1>Страница с постами: </h1>
         <br>
         <my-button @click="showDialog" style="margin-top: 15px;">Создать пост</my-button>
     <my-dialog v-model:show="dialogVisible">
