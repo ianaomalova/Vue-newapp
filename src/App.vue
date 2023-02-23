@@ -1,30 +1,68 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+    <div class="app">
+        <h1>Страница с постами</h1>
+        <br>
+        <my-button @click="showDialog" style="margin-top: 15px;">Создать пост</my-button>
+    <my-dialog v-model:show="dialogVisible">
+        <post-form @create="CreatePost"/>
+    </my-dialog>
+    <post-list
+            :posts="posts"
+            @remove="RemovePost"
+    />
+    </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+    import PostForm from "@/components/PostForm";
+    import PostList from "@/components/PostList";
+    import MyDialog from "@/components/UI/MyDialog";
+    export default {
+        components: {
+            MyDialog,
+            PostList,
+            PostForm
+        },
+        data() {
+            return{
+                posts: [
+                    {id: 1, title: 'Name', body: 'Body'},
+                    {id: 2, title: 'Name 2', body: 'Body 2'}
+                ],
+                title: '',
+                body: '',
+                dialogVisible: false,
+            }
+        },
+        methods: {
+            CreatePost(post) {
+                this.posts.push(post)
+                this.dialogVisible = false
+            },
+            RemovePost(post) {
+                this.posts = this.posts.filter(p => p.id !== post.id)
+            },
+            showDialog() {
+                this.dialogVisible = true
+            }
+        }
+    }
+</script>
+
+<style scoped>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-nav {
-  padding: 30px;
+form {
+    display: flex;
+    flex-direction: column;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+    .app {
+        padding: 20px;
+    }
 
-nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
